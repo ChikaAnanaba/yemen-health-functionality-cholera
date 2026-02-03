@@ -1,0 +1,16 @@
+column,missing_fraction,missing_percent
+num_deaths_cholera,0.8692609660351596,86.9
+percent_functioning_health_centres,0.6554019457245264,65.5
+percent_attack_rate,0.5881549752517494,58.8
+percent_individuals_health_facilities_problems,0.5821812596006144,58.2
+num_health_workers,0.576036866359447,57.6
+num_suspected_cases_cholera,0.016726403823178016,1.7
+pcode_2,0.0,0.0
+month,0.0,0.0
+district,0.0,0.0
+governorate,0.0,0.0
+pcode_1,0.0,0.0
+gid_1,0.0,0.0
+gid_2,0.0,0.0
+unocha_operational_hub,0.0,0.0
+was_duplicated,0.0,0.0
