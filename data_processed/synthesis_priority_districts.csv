@@ -1,0 +1,19 @@
+pcode_2,district,governorate,low_functionality_signal,sustained_cholera_pressure,strong_negative_signal,num_signals
+YE2305,Sanhan wa Bani Bahlul,Sana'a,True,True,True,3
+YE1412,Radman,Al Bayda,True,False,True,2
+YE1417,Sabah,Al Bayda,True,False,True,2
+YE1608,Al Ghayl,Al Jawf,True,False,True,2
+YE1602,Al Humaydat,Al Jawf,True,False,True,2
+YE2915,Amran,Amran,True,True,False,2
+YE1728,Hajjah City,Hajjah,True,True,False,2
+YE1107,Al Makhadir,Ibb,True,True,False,2
+YE1116,Dhi As Sufal,Ibb,True,True,False,2
+YE1120,Ibb,Ibb,True,True,False,2
+YE1102,Yarim,Ibb,True,True,False,2
+YE2308,Al Haymah Ad Dakhiliyah,Sana'a,True,True,False,2
+YE2309,Al Haymah Al Kharijiyah,Sana'a,True,True,False,2
+YE2313,At Tyal,Sana'a,True,True,False,2
+YE2314,Bani Dabyan,Sana'a,True,False,True,2
+YE2304,Bani Hushaysh,Sana'a,True,True,False,2
+YE2301,Hamdan,Sana'a,True,True,False,2
+YE2312,Khawlan,Sana'a,True,True,False,2
