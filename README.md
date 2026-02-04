@@ -32,3 +32,12 @@ For detailed methods, assumptions, and limitations, see `docs/analytical_framewo
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
+
+## Data source
+
+Raw data is publicly available from the ACAP/ACAPS website.  
+This repository does not include the raw file. To reproduce:
+
+1) Download the dataset
+2) Save it as: `data_raw/yemen-core-dataset-health.csv`
+3) Run the notebooks / pipeline as described in `data_pipeline_design.md`
