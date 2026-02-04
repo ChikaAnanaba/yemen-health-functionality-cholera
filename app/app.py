@@ -78,7 +78,9 @@ if selected_gov != "All":
 if selected_district != "All":
     df_view = df_view[df_view["district"] == selected_district]
 
+# ------------------------------------------------------------
 # Coverage calc (global)
+# ------------------------------------------------------------
 coverage = (
     df.groupby("month")["pcode_2"].nunique()
     .reset_index(name="num_districts_reporting")
@@ -87,13 +89,23 @@ ABSOLUTE_FLOOR = 150
 coverage["low_coverage_month"] = coverage["num_districts_reporting"] < ABSOLUTE_FLOOR
 
 # ------------------------------------------------------------
-# Header
+# Header (Phase 6 additions)
 # ------------------------------------------------------------
 st.title("Yemen (2019–2021): Functionality & Cholera Decision Signals")
 st.write(
     "This dashboard surfaces coverage-aware decision signals from district-level reported data. "
     "It supports prioritisation and hypothesis generation, not causal inference."
 )
+
+with st.expander("How to use this dashboard"):
+    st.markdown(
+        """
+- Start with **Overview & Coverage** to understand how reporting changes over time.
+- Use the sidebar to filter to a **governorate** or a **specific district**.
+- Each Decision tab shows the **evidence behind the flag**, not just the flag itself.
+- Treat signals as **prioritisation cues**. They are not proof of causality or burden.
+        """.strip()
+    )
 
 # Coverage warning for the selected date window
 low_cov_months = coverage[
@@ -106,6 +118,32 @@ if len(low_cov_months) > 0:
         f"Coverage warning: {len(low_cov_months)} month(s) in the selected range fall below "
         f"{ABSOLUTE_FLOOR} reporting districts. Interpret trends cautiously."
     )
+
+def district_narrative(row):
+    signals = []
+    if bool(row["low_functionality_signal"]):
+        signals.append("persistently low reported functionality")
+    if bool(row["sustained_cholera_pressure"]):
+        signals.append("sustained suspected cholera pressure")
+    if bool(row["strong_negative_signal"]):
+        signals.append("negative co-movement between functionality and cases")
+
+    if len(signals) == 0:
+        core = "No decision signals are flagged for this district in the current synthesis outputs."
+    elif len(signals) == 1:
+        core = f"This district is flagged for **{signals[0]}**."
+    else:
+        core = (
+            "This district is flagged for **multiple signals**: "
+            + ", ".join(signals[:-1])
+            + f", and {signals[-1]}."
+        )
+
+    cautious = (
+        "Interpretation note: reported values may reflect access constraints, reporting practices, or surveillance intensity. "
+        "Use this as a starting point for follow-up, not a stand-alone conclusion."
+    )
+    return core + "\n\n" + cautious
 
 # Quick selection summary (only if a district is selected)
 if selected_district != "All" and len(syn_view) > 0:
@@ -121,6 +159,9 @@ if selected_district != "All" and len(syn_view) > 0:
         f"- Sustained cholera pressure: **{'Yes' if bool(row['sustained_cholera_pressure']) else 'No'}**\n"
         f"- Strong negative co-movement: **{'Yes' if bool(row['strong_negative_signal']) else 'No'}**"
     )
+
+    st.markdown("### District interpretation (auto-summary)")
+    st.write(district_narrative(row))
 else:
     st.info("Tip: select a specific district to see focused evidence charts for Decisions 1–3.")
 
@@ -151,7 +192,7 @@ with tab1:
     )
 
 # ------------------------------------------------------------
-# Tab 2: Decision 1
+# Tab 2
 # ------------------------------------------------------------
 with tab2:
     st.subheader("Decision 1: Persistently low reported health facility functionality")
@@ -177,7 +218,7 @@ with tab2:
     )
 
 # ------------------------------------------------------------
-# Tab 3: Decision 2
+# Tab 3
 # ------------------------------------------------------------
 with tab3:
     st.subheader("Decision 2: Sustained cholera pressure (suspected cases)")
@@ -197,12 +238,10 @@ with tab3:
         ts = ts.groupby("month", as_index=True)["num_suspected_cases_cholera"].sum()
         st.line_chart(ts)
 
-    st.caption(
-        "Interpretation: sustained pressure emphasises persistence over time rather than one-off spikes."
-    )
+    st.caption("Interpretation: sustained pressure emphasises persistence over time rather than one-off spikes.")
 
 # ------------------------------------------------------------
-# Tab 4: Decision 3
+# Tab 4
 # ------------------------------------------------------------
 with tab4:
     st.subheader("Decision 3: Co-movement scan (functionality vs suspected cholera)")
@@ -226,9 +265,14 @@ with tab4:
             suspected_cases=("num_suspected_cases_cholera", "sum"),
         )
 
-        corr = np.corrcoef(paired["functioning"], paired["suspected_cases"])[0, 1]
+        c1, c2 = st.columns(2)
+        with c1:
+            st.markdown("**Functionality (median %)**")
+            st.line_chart(paired.set_index("month")["functioning"])
+        with c2:
+            st.markdown("**Suspected cholera cases (sum)**")
+            st.line_chart(paired.set_index("month")["suspected_cases"])
 
-        # Correlation as descriptive evidence (can be NaN if no variation)
         corr = np.corrcoef(paired["functioning"], paired["suspected_cases"])[0, 1]
         if np.isnan(corr):
             st.metric("Within-district correlation", "NA")
@@ -242,7 +286,7 @@ with tab4:
         )
 
 # ------------------------------------------------------------
-# Tab 5: Synthesis
+# Tab 5
 # ------------------------------------------------------------
 with tab5:
     st.subheader("Synthesis: where multiple signals converge")
@@ -265,6 +309,13 @@ with tab5:
     ]].sort_values(["num_signals", "governorate", "district"], ascending=[False, True, True])
 
     st.dataframe(syn_show, use_container_width=True)
+
+    st.download_button(
+        label="Download synthesis table (CSV)",
+        data=syn_show.to_csv(index=False).encode("utf-8"),
+        file_name="synthesis_filtered.csv",
+        mime="text/csv"
+    )
 
     st.markdown("---")
     st.subheader("Methods & limitations")
