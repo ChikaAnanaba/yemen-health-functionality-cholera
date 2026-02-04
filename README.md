@@ -41,3 +41,13 @@ This repository does not include the raw file. To reproduce:
 1) Download the dataset
 2) Save it as: `data_raw/yemen-core-dataset-health.csv`
 3) Run the notebooks / pipeline as described in `data_pipeline_design.md`
+
+## Dashboard snapshots
+
+![Coverage and context](docs/screenshots/01_coverage_and_context.png)
+![Decision 1 – Functionality](docs/screenshots/02_decision1_functionality.png)
+![Decision 2 – Cholera pressure](docs/screenshots/03_decision2_cholera.png)
+![Decision 3 – Co-movement](docs/screenshots/04_decision3_comovement.png)
+
+🔗 **Live demo:** 
+https://yemen-health-functionality-cholera.streamlit.app/
