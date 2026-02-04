@@ -24,7 +24,7 @@ This signal is intended to highlight areas where reported functionality appears 
 
 The second signal captures sustained cholera pressure based on repeated months of elevated suspected cholera case counts. Emphasis is placed on persistence rather than peak magnitude, reflecting the operational importance of prolonged transmission pressure in humanitarian contexts.
 
-Districts are ranked using the number of high-case months, with additional consideration of total reported cases where reporting histories are comparable.
+Districts are ranked using the number of high-case months, with total reported cases used as supporting context where reporting histories are comparable.
 
 ## Decision signal 3: Co-movement between functionality and cholera
 
@@ -43,3 +43,11 @@ This approach prioritises transparency and interpretability, allowing users to s
 Reported indicators reflect partner-reported operational status and surveillance data, which may be influenced by access constraints, insecurity, reporting practices, and population displacement. The absence of a signal should not be interpreted as the absence of need.
 
 Findings are intended to support prioritisation and hypothesis generation, and should be interpreted alongside qualitative information and field-level knowledge.
+
+### Analytical choices and trade-offs
+- Signals are kept separate rather than combined into a single index, to avoid hiding assumptions and to make prioritisation logic transparent.
+- Persistence over time is prioritised over single-month extremes to reduce sensitivity to reporting noise.
+- Attack rate is treated as contextual information due to missingness, extreme values, and unclear denominators.
+- Co-movement is used as a descriptive scan, not as evidence of causality.
+- Declining reporting coverage is flagged rather than imputed, to avoid creating artificial trends.
+- No attempt is made to model missing data or adjust for reporting bias, as these processes are likely non-random in conflict-affected settings.

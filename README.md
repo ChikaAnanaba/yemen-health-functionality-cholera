@@ -1,6 +1,6 @@
 # Yemen Health Functionality and Cholera Signals (2019–2021)
 
-District-level analysis of reported health service functionality and suspected cholera trends in Yemen, with explicit treatment of data quality, coverage gaps, and analytical limitations to support cautious humanitarian decision-making.
+District-level analysis of reported health service functionality and suspected cholera trends in Yemen, with explicit treatment of data quality, reporting coverage gaps, and analytical limitations to support cautious humanitarian decision-making.
 
 This project explores district-level patterns in health system functionality and suspected cholera cases in Yemen between 2019 and 2021 using publicly available humanitarian health data. The aim is not to predict outcomes or assess programme performance, but to support prioritisation and sense-making in a context where data is incomplete, reporting is uneven, and decisions often need to be made under uncertainty.
 
@@ -8,21 +8,23 @@ This project explores district-level patterns in health system functionality and
 
 ## How this analysis works
 
-The analysis begins with a full data quality review, including the identification of duplicate records, inconsistent geographic fields, and changes in reporting coverage over time. A substantial decline in the number of reporting districts is observed in 2021, and this is explicitly accounted for to avoid interpreting data availability issues as real-world trends.
+The analysis begins with a structured data quality review, including the identification of duplicate records, inconsistent geographic fields, and changes in reporting coverage over time. A substantial decline in the number of reporting districts is observed in 2021, and this is explicitly accounted for to avoid misinterpreting data availability issues as substantive trends.
 
 Three complementary decision signals are then developed:
 
-- **Persistently low reported health facility functionality**
-- **Sustained cholera pressure**, based on repeated months of elevated suspected case counts
-- **Within-district co-movement** between functionality and suspected cholera cases over time
+Persistently low reported health facility functionality
 
-Rather than combining these indicators into a single index, signals are allowed to converge naturally. This highlights districts where multiple independent stress signals align, while preserving transparency about which signals are driving inclusion.
+Sustained cholera pressure, based on repeated months of elevated suspected case counts
 
-The outputs are designed to support further investigation, planning discussions, and interactive exploration rather than to provide definitive assessments.
+Within-district co-movement between reported functionality and suspected cholera cases over time
+
+Rather than combining these indicators into a single composite index, the signals are allowed to converge naturally. This highlights districts where multiple independent stress signals align, while preserving transparency about which signals are driving inclusion.
+
+The outputs are designed to support further investigation, planning discussions, and interactive exploration, rather than to provide definitive assessments or causal claims.
 
 All findings should be interpreted alongside contextual and qualitative information.
 
-For detailed methods, assumptions, and limitations, see `docs/analytical_framework.md`.
+For detailed methods, assumptions, and limitations, see docs/analytical_framework.md
 
 ---
 
@@ -30,8 +32,11 @@ For detailed methods, assumptions, and limitations, see `docs/analytical_framewo
 
 1. Clone this repository
 2. Install dependencies:
-   ```bash
    pip install -r requirements.txt
+3. Launch the dashboard:
+    streamlit run app/app.py
+4. If Streamlit is not recognised, try:
+    python -m streamlit run app/app.py
 
 ## Data source
 
@@ -51,3 +56,7 @@ This repository does not include the raw file. To reproduce:
 
 🔗 **Live demo:** 
 https://yemen-health-functionality-cholera.streamlit.app/
+
+## Key takeaway
+
+A small number of districts exhibit overlapping signals of persistent health system strain and sustained cholera pressure. However, interpretation depends critically on reporting coverage, and apparent trends in later periods may reflect data availability rather than changes on the ground.

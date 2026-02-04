@@ -180,15 +180,52 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 # Tab 1
 # ------------------------------------------------------------
 with tab1:
+    st.subheader("Key findings (from this dataset)")
+
+    st.markdown(
+        """
+**1. Where is reported health facility functionality consistently low?**  
+Persistently low reported functionality is concentrated in a relatively small set of districts.  
+These are primarily clustered in **Al Jawf** and **Al Bayda**, with additional districts flagged in **Sana’a, Ibb, Amran, Hajjah, and Abyan**.  
+The signal is designed to highlight **chronic low levels** over time rather than short-term fluctuations.
+
+**2. Where is sustained cholera pressure observed?**  
+Sustained suspected cholera pressure (based on repeated high-case months) appears most strongly in **Sana’a** and **Ibb**, with additional affected districts in **Amran** and **Hajjah**.  
+Attack rate is present in the dataset but is highly incomplete and contains extreme values, so it is treated as contextual information rather than a primary ranking metric.
+
+**3. Do declines in functionality coincide with increases in suspected cholera?**  
+A small number of districts show **strong negative co-movement**, meaning lower reported functionality tends to coincide with higher suspected cholera cases within the same district and time window.  
+These signals are most visible in **Sana’a**, with additional examples in **Al Bayda** and **Al Jawf**.  
+This is interpreted strictly as a **descriptive signal**, not evidence of causality.
+
+**4. Where is data coverage deteriorating, and why does it matter?**  
+Reporting coverage is relatively stable through 2019–2020, then declines sharply during 2021.  
+This means late-period trends may reflect **who is still reporting**, rather than true changes on the ground.  
+Low-coverage months are therefore explicitly flagged to reduce the risk of misinterpretation.
+        """.strip()
+    )
+
+    st.info(
+        "Main takeaway: coverage changes can be more dramatic than the health trends themselves. "
+        "Without tracking reporting coverage, it is easy to tell the wrong story."
+    )
+
+    st.markdown("---")
+
     st.subheader("Governorate summary (districts with ≥2 signals)")
     st.dataframe(gov, use_container_width=True)
 
     st.subheader("Reporting coverage over time")
-    cov_plot = coverage[(coverage["month"] >= start_month) & (coverage["month"] <= end_month)].copy()
+    cov_plot = coverage[
+        (coverage["month"] >= start_month) &
+        (coverage["month"] <= end_month)
+    ].copy()
+
     st.line_chart(cov_plot.set_index("month")["num_districts_reporting"])
+
     st.caption(
         "Coverage = number of districts reporting any data in a month. "
-        "A sharp decline can create misleading trends if not handled."
+        "The sharp decline in 2021 indicates increasing uncertainty in trend interpretation."
     )
 
 # ------------------------------------------------------------
@@ -328,3 +365,13 @@ with tab5:
 - Co-movement is a temporal alignment scan and does **not** imply causality.
         """.strip()
     )
+st.subheader("Why these analytical choices were made")
+st.markdown(
+    """
+- Signals are kept separate rather than combined into a single index, to avoid hiding assumptions and to make prioritisation logic transparent.
+- Persistence over time is prioritised over single-month extremes to reduce sensitivity to reporting noise.
+- Attack rate is treated as contextual information due to missingness, extreme values, and unclear denominators.
+- Co-movement is used as a descriptive scan, not as evidence of causality.
+- Declining reporting coverage is flagged rather than imputed, to avoid creating artificial trends.
+    """.strip()
+)
